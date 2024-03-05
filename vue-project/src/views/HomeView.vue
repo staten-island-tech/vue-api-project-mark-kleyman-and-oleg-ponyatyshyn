@@ -1,9 +1,15 @@
+<template>
+  <div>
+    <NewComponent />
+  </div>
+</template>
+
 <script setup>
+import NewComponent from '@/components/newComponent.vue';
+
 
 </script>
 
-<template>
-  <main>
-    <TheWelcome />
-  </main>
-</template>
+<style lang="scss" scoped>
+
+</style>
