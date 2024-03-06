@@ -1,15 +1,26 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
+  <div>
+
   </div>
 </template>
 
-<style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
+<script setup>
+import {ref, onMounted} from 'vue'
+const crashes = ref("")
+async function getCrashes() {
+  let res = await fetch ("https://data.cityofnewyork.us/resource/h9gi-nx95.json")
+  let data = await res.json();
+  console.log(data);
+  crashes.value = data.results
 }
+
+onMounted(() => {
+getCrashes()
+});
+
+
+</script>
+
+<style lang="scss" scoped>
+
 </style>
