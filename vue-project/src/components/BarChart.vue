@@ -1,5 +1,7 @@
 <template>
-  <Bar :data="chartData" />
+  <div class="container">
+    <Bar :data="chartData" />
+  </div>
 </template>
 
 <script>
@@ -24,6 +26,6 @@ export default {
         ]
       }
     }
-  }
+  },
 }
 </script>
