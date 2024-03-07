@@ -1,9 +1,20 @@
-<script setup>
+<template>
+  <div>
+    <NewComponent />
+  </div>
+</template>
 
+<script>
+import NewComponent from '@/components/newComponent.vue';
+
+export default {
+    setup() {
+        return {};
+    },
+    components: { NewComponent }
+}
 </script>
 
-<template>
-  <main>
-    <TheWelcome />
-  </main>
-</template>
+<style lang="scss" scoped>
+
+</style>
