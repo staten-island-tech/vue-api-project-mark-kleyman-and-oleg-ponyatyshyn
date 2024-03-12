@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Bar :data="chartData" />
+    <Bar v-if="loaded" :data="chartData" />
   </div>
 </template>
 
@@ -13,19 +13,31 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 export default {
   name: 'BarChart',
   components: { Bar },
-  data() {
-    return {
-      chartData: {
-        labels: [ 'January', 'February', 'March'],
-        datasets: [
-          {
-            label: 'Data One',
-            backgroundColor: '#f87979',
-            data: [40, 20, 12]
-          }
-        ]
-      }
-    }
-  },
+  data: () => ({
+    loaded: false,
+    chartData: null
+  }),
+
+  async mounted () {
+    this.loaded = false
+
+    let crashes = []
+
+    try {
+    const res = await fetch ("https://data.cityofnewyork.us/resource/h9gi-nx95.json")
+    const data = await res.json();
+    data.forEach((item)=>{
+    crashes.push(item.contributing_factor_vehicle_1)
+    crashes.sort()
+    this.chartData = crashes.contributing_factor_vehicle_1;
+  })
+  crashes.forEach((item)=>{
+    console.log(item)
+  })
 }
+    catch (e) {
+      console.error(e)
+  }
+}
+
 </script>
