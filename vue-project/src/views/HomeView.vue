@@ -4,22 +4,27 @@
   </div>
 </template>
 
-<script>
+<script setup>
 
 
 import BarChart from '@/components/BarChart.vue'
 
-import {ref, onMounted} from 'vue'
-const crashes = ref("")
+import {ref, onBeforeMount} from 'vue'
+let crashes = []
 async function getCrashes() {
   let res = await fetch ("https://data.cityofnewyork.us/resource/h9gi-nx95.json")
   let data = await res.json();
-  console.log(data);
-  crashes.value = data.results
+  data.forEach((item)=>{
+   crashes.push(item.contributing_factor_vehicle_1)
+   crashes.sort()
+  })
+  crashes.forEach((item)=>{
+    console.log(item)
+  })
 }
 
-onMounted(() => {
-getCrashes()
+onBeforeMount(() => {
+  getCrashes()
 });
 </script>
 
