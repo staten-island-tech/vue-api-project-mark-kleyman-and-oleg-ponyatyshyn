@@ -1,7 +1,9 @@
 <template>
-  <div class="container">
-    <Bar :data="chartData" />
-  </div>
+  <Bar
+    id="my-chart-id"
+    :options="chartOptions"
+    :data="chartData"
+  />
 </template>
 
 <script>
@@ -16,16 +18,13 @@ export default {
   data() {
     return {
       chartData: {
-        labels: [ 'January', 'February', 'March'],
-        datasets: [
-          {
-            label: 'Data One',
-            backgroundColor: '#f87979',
-            data: [40, 20, 12]
-          }
-        ]
+        labels: [ 'January', 'February', 'March' ],
+        datasets: [ { data: [40, 20, 12] } ]
+      },
+      chartOptions: {
+        responsive: true
       }
     }
-  },
+  }
 }
 </script>
