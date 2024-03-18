@@ -1,16 +1,19 @@
 <template>
-  <Bar
-    id="my-chart-id"
-    :options="state.chartOptions"
-    :data="state.chartData"
-  />
+  <div v-if="skibidi">
+    <Bar
+      id="my-chart-id"
+      :options="state.chartOptions"
+      :data="state.chartData"
+    />
+  </div>
+
 </template>
 
 <script setup>
-import { ref, reactive, onBeforeMount } from 'vue';
+import { ref, reactive, onBeforeMount, onMounted } from 'vue';
 import { Bar } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
-
+let skibidi = ref(false)
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
 
@@ -33,15 +36,15 @@ async function getCrashes() {
     }, {});
 
     const counts = Object.values(crashCounts);
-    chartDataSelf.push(counts[0])
-    console.log(chartDataSelf)
+    state.chartData.datasets[0].data.push(counts[0], counts[1])
+    console.log(state.chartData.datasets[0].data)
     function onlyUnique(value, index, array) {
       return array.indexOf(value) === index;
     }
     
     const unique = crashes.value.filter(onlyUnique);
     
-    chartLabels.push(unique[0])
+    state.chartData.labels.push(unique[0],unique[1])
 
 
   } catch (error) {
@@ -53,8 +56,13 @@ let chartLabels = []
 let chartDataSelf = []
 const state = reactive({
   chartData: {
-    labels: [chartLabels, 'skibidi', 'toilet'],
-    datasets: [{ data: [chartDataSelf] }],
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        backgroundColor: '#32a852'
+      }
+    ],
   },
   chartOptions: {
     responsive: true,
@@ -63,7 +71,8 @@ const state = reactive({
 });
 onBeforeMount(() => {
   getCrashes();
-  
 });
-
+onMounted(()=> { 
+  skibidi.value = true
+})
 </script>
