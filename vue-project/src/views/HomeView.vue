@@ -36,16 +36,16 @@ async function getCrashes() {
     }, {});
 
     const counts = Object.values(crashCounts);
-    state.chartData.datasets[0].data.push(counts[0], counts[1])
-    console.log(state.chartData.datasets[0].data)
+    const datafart = state.chartData.datasets[0].data
+    chartDataSelf.push(counts[0])
     function onlyUnique(value, index, array) {
       return array.indexOf(value) === index;
     }
     
     const unique = crashes.value.filter(onlyUnique);
-    
-    state.chartData.labels.push(unique[0],unique[1])
+    state.chartData.labels.push(unique[0])
 
+    
 
   } catch (error) {
     console.error(error); 
@@ -59,14 +59,13 @@ const state = reactive({
     labels: [],
     datasets: [
       {
-        data: [],
-        backgroundColor: '#32a852'
+        data: [chartDataSelf],
+        backgroundColor: '#00000'
       }
     ],
   },
   chartOptions: {
     responsive: true,
-
   },
 });
 onBeforeMount(() => {
