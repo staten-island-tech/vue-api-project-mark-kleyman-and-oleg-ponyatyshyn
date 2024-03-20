@@ -36,16 +36,13 @@ async function getCrashes() {
     }, {});
 
     const counts = Object.values(crashCounts);
-    const datafart = state.chartData.datasets[0].data
-    chartDataSelf.push(counts[0])
+    chartDataSelf = [1,2]
     function onlyUnique(value, index, array) {
       return array.indexOf(value) === index;
     }
     
     const unique = crashes.value.filter(onlyUnique);
-    state.chartData.labels.push(unique[0])
-
-    
+    state.chartData.labels.push(unique[0], unique[1])
 
   } catch (error) {
     console.error(error); 
@@ -59,8 +56,9 @@ const state = reactive({
     labels: [],
     datasets: [
       {
+        label: '# of crashes',
         data: [chartDataSelf],
-        backgroundColor: '#00000'
+        backgroundColor: '#f29370'
       }
     ],
   },
