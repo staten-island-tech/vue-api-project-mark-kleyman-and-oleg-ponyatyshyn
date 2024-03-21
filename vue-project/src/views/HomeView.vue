@@ -13,9 +13,9 @@
 import { ref, reactive, onBeforeMount, onMounted } from 'vue';
 import { Bar } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
+import { compileScript } from 'vue/compiler-sfc';
 let skibidi = ref(false)
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
-
 
 async function getCrashes() {
   try {
@@ -34,21 +34,22 @@ async function getCrashes() {
       }
       return acc;
     }, {});
-
     const counts = Object.values(crashCounts);
-    chartDataSelf = [1,2]
+    console.log(state.chartData.datasets[0].data)
+      chartDataSelf.push(counts[0], counts[1])
+    console.log(chartDataSelf)
     function onlyUnique(value, index, array) {
       return array.indexOf(value) === index;
-    }
+    } 
     
     const unique = crashes.value.filter(onlyUnique);
     state.chartData.labels.push(unique[0], unique[1])
-
   } catch (error) {
-    console.error(error); 
+    throw new Error(error)
   }
 }
 const crashes = ref([]);
+
 let chartLabels = []
 let chartDataSelf = []
 const state = reactive({
@@ -57,7 +58,7 @@ const state = reactive({
     datasets: [
       {
         label: '# of crashes',
-        data: [chartDataSelf],
+        data: chartDataSelf,
         backgroundColor: '#f29370'
       }
     ],
@@ -66,6 +67,7 @@ const state = reactive({
     responsive: true,
   },
 });
+
 onBeforeMount(() => {
   getCrashes();
 });
