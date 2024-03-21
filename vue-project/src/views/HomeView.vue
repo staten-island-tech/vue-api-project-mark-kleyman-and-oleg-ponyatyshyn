@@ -1,16 +1,25 @@
 <template>
-  <div v-if="skibidi">
-    <Bar
-      id="my-chart-id"
-      :options="state.chartOptions"
-      :data="state.chartData"
-    />
-  </div>
-
+  <BarChart />
 </template>
 
-<script setup>
-import { ref, reactive, onBeforeMount, onMounted } from 'vue';
+<script>
+import BarChart from '../components/BarChart.vue'
+
+export default {
+  name: 'App',
+  components: { BarChart }
+}
+
+
+
+
+
+
+
+
+
+
+/* import { ref, reactive, onBeforeMount, onMounted } from 'vue';
 import { Bar } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
 import { compileScript } from 'vue/compiler-sfc';
@@ -73,5 +82,5 @@ onBeforeMount(() => {
 });
 onMounted(()=> { 
   skibidi.value = true
-})
+}) */
 </script>
