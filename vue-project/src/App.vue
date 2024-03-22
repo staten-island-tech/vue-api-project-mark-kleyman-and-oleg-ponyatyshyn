@@ -19,6 +19,7 @@ import HomeView from './views/HomeView.vue';
 
 <style scoped>
 header {
+  align-items: center;
   line-height: 1.5;
   max-height: 100vh;
 }
@@ -32,7 +33,8 @@ nav {
   width: 100%;
   font-size: 12px;
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 1rem;
+  align-items: center;
 }
 
 nav a.router-link-exact-active {
@@ -47,6 +49,7 @@ nav a {
   display: inline-block;
   padding: 0 1rem;
   border-left: 1px solid var(--color-border);
+  align-items: center;
 }
 
 nav a:first-of-type {
@@ -56,7 +59,7 @@ nav a:first-of-type {
 @media (min-width: 1024px) {
   header {
     display: flex;
-    place-items: center;
+    align-items: center;
     padding-right: calc(var(--section-gap) / 2);
   }
 
@@ -68,10 +71,12 @@ nav a:first-of-type {
     display: flex;
     place-items: flex-start;
     flex-wrap: wrap;
+    align-items: center;
   }
 
   nav {
-    text-align: left;
+    align-items: center;
+    text-align: center;
     margin-left: -1rem;
     font-size: 1rem;
 
