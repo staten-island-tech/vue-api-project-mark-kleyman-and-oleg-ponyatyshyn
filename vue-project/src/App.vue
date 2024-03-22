@@ -10,6 +10,7 @@ import HomeView from './views/HomeView.vue';
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/fart">skibidi</RouterLink>
       </nav>
     </div>
   </header>

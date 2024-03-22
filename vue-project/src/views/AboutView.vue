@@ -15,7 +15,7 @@ const chartData = ref({
   labels: [],
   datasets: [
     {
-      backgroundColor: ['#FFC0CB', '#FFF0F5', '#FFDAB9', '#FFA07A','#FFA07A', '#FF69B4', '#FFC0CB', '#FFE4E1','#FFA07A', '#FF6347', '#FF7F50', '#FFA07A','#FFB6C1', '#FFD1DC', '#E5D9BE', '#FFA07A'],
+      backgroundColor: ['#FFC0CB', '#FFF0F5', '#FFDAB9', '#FF2973','#FFA07A', '#FF69B4', '#FFC0CB', '#FFE4E1','#FFA07A', '#FF6347', '#FF7F50', '#FFA07A','#FFB6C1', '#FFD1DC', '#E5D9BE', '#FFA07A'],
       data: []
     }
   ]
@@ -30,25 +30,23 @@ const skibidi = ref(false);
 
 const fetchData = async () => {
   try {
-    const res = await fetch('https://data.cityofnewyork.us/resource/h9gi-nx95.json');
+    const res = await fetch('https://data.cityofnewyork.us/resource/2rb7-7eqa.json');
     const data = await res.json();
+    console.log(data);
 
-    data.forEach((item) => {
-      crashes.value.push(item.contributing_factor_vehicle_1);
-    });
-
-    const crashCounts = data.reduce((acc, item) => {
-      const crash = item.contributing_factor_vehicle_1;
-      if (!acc[crash]) {
-        acc[crash] = 1;
-      } else {
-        acc[crash]++;
-      }
-      return acc;
+    const boroughCount = data.reduce((acc, item) => {
+        const borough = item.borough_name;
+        if (!acc[borough]) {
+            acc[borough] = 1;
+        } else {
+            acc[borough]++;
+        }
+        return acc;
     }, {});
+    console.log(boroughCount)
 
-    const labels = Object.keys(crashCounts);
-    const counts = Object.values(crashCounts);
+    const labels = Object.keys(boroughCount);
+    const counts = Object.values(boroughCount);
 
     chartData.value.labels = labels;
     chartData.value.datasets[0].data = counts;
