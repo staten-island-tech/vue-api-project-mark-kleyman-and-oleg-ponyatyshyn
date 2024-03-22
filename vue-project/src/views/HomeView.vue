@@ -1,14 +1,19 @@
 <template>
-  <BarChart />
+  <div>
+    <h1>Crash Counts in New York City</h1>
+    <BarChart />
+  </div>
 </template>
 
 <script>
-import BarChart from '../components/BarChart.vue'
+import BarChart from '@/components/BarChart.vue';
 
 export default {
-  name: 'App',
+  name: 'HomeView',
   components: { BarChart }
-}
+};
+
+
 
 
 
