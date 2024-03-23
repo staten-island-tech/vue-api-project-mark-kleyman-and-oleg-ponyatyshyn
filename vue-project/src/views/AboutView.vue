@@ -32,7 +32,6 @@ const fetchData = async () => {
   try {
     const res = await fetch('https://data.cityofnewyork.us/resource/2rb7-7eqa.json');
     const data = await res.json();
-    console.log(data);
 
     const boroughCount = data.reduce((acc, item) => {
         const borough = item.borough_name;
@@ -43,7 +42,6 @@ const fetchData = async () => {
         }
         return acc;
     }, {});
-    console.log(boroughCount)
 
     const labels = Object.keys(boroughCount);
     const counts = Object.values(boroughCount);

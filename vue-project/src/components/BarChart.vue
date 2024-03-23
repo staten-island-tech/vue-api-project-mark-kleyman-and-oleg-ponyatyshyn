@@ -32,7 +32,6 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
         try {
           const res = await fetch('https://data.cityofnewyork.us/resource/h9gi-nx95.json');
           const data = await res.json();
-          console.log(data);
 
           data.forEach((item) => {
             crashes.value.push(item.contributing_factor_vehicle_1);
