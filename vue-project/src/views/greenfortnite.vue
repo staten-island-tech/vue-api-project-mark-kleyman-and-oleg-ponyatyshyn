@@ -2,17 +2,21 @@
   <div>
     <div v-if="selectedSchools.length > 0">
       <h2>School 1: {{ selectedSchools[0].school_name }}</h2>
-      <p>Combined SAT Score: {{ getCombinedSatScore(selectedSchools[0]) }}</p>
+      <p>Average SAT Score: {{ getCombinedSatScore(selectedSchools[0]) }}</p>
 
       <h2>School 2: {{ selectedSchools[1].school_name }}</h2>
-      <p>Combined SAT Score: {{ getCombinedSatScore(selectedSchools[1]) }}</p>
-
-      <Bar :data="chartData" :options="chartOptions"/>
+      <p>Average SAT Score: {{ getCombinedSatScore(selectedSchools[1]) }}</p>
+      <div id="chart" v-if="gameCont">
+        <Bar :data="chartData" :options="chartOptions"/>
+      </div>
+        <button id="fart" v-if="!gameCont" @click="guess">Choice 1</button>
+        <button id="fart" v-if="!gameCont"  @click="guess">Choice 2</button>
+        <button id="fart" v-if="gameCont" @click="continueGame">Next</button>
+      
     </div>
     <div v-else>
       <p>Loading...</p>
     </div>
-    <button id="fart" @click="resetSchools">Reset Schools</button>
   </div>
 </template>
 
@@ -34,13 +38,15 @@ export default {
       labels: [],
       datasets: [
         {
-          label: 'Combined SAT Scores',
+          label: 'Average SAT Scores',
           backgroundColor: '#ff2e77',
           data: []
         }
       ]
     });
     const chartOptions = ref({
+      responsive: true,
+      maintainAspectRatio: false,
       scales: {
         y: {
           beginAtZero: true,
@@ -92,7 +98,7 @@ export default {
 
      const updateChartData = () => {
       const newData = {
-        labels: selectedSchools.value.map(school => school.school_name),
+        labels: ['Option 1', 'Option 2'],
         datasets: [{
           label: 'Combined SAT Scores',
           backgroundColor: '#ff2e77',
@@ -109,28 +115,36 @@ export default {
       return school.combined_sat_score;
     };
 
-    const resetSchools = () => {
-      fetchData();
+    const guess = () => {
+      gameCont.value = true
     };
 
     watchEffect(() => {
       updateChartData();
     });
-
+    let gameCont = ref(false)
+    function continueGame(){
+      fetchData();
+      gameCont.value = false
+    }
     return {
       selectedSchools,
       combinedSATScores,
+      gameCont,
       chartData,
       chartOptions,
       getCombinedSatScore,
-      resetSchools
+      guess,
+      continueGame
     };
   },
 };
 </script>
 
 <style scoped>
-#fart {
-  position: absolute;
-}
+  #chart{
+    height: 700px;
+    width: 300px;
+    position: 'relative'
+  }
 </style>

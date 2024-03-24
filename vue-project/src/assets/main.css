@@ -1,21 +1,13 @@
 @import './base.css';
 
-#app {
-  max-width: 1450px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
-}
 
 a,
 .green {
   display: flex;
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
+  color: rgb(248, 77, 226);
   transition: 0.4s;
-  padding: 3px;
-  margin: auto;
-  font-size: 3rem;
-  align-items: center;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
