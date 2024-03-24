@@ -8,9 +8,8 @@ import HomeView from './views/HomeView.vue';
     <div class="wrapper">
 
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/fart">skibidi</RouterLink>
+        <RouterLink to="/">Crashes</RouterLink>
+        <RouterLink to="/fart">SAT</RouterLink>
       </nav>
     </div>
   </header>
@@ -20,9 +19,20 @@ import HomeView from './views/HomeView.vue';
 
 <style scoped>
 header {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  text-align: center;
   line-height: 1.5;
   max-height: 100vh;
+}
+
+header .wrapper {
+  display: flex;
+  place-items: flex-start;
+  flex-wrap: wrap;
+  align-items: center;
+
 }
 
 .logo {
@@ -35,8 +45,19 @@ nav {
   font-size: 12px;
   text-align: center;
   margin-top: 1rem;
-  align-items: center;
+  display: flex; 
+  justify-content: center; 
 }
+
+nav a {
+  display: inline-block;
+  padding: 0 1rem;
+  border-left: 1px solid var(--color-border);
+  align-items: center;
+  text-align: center;
+  margin: 0 auto; 
+}
+
 
 nav a.router-link-exact-active {
   color: var(--color-text);
@@ -46,12 +67,6 @@ nav a.router-link-exact-active:hover {
   background-color: transparent;
 }
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-  align-items: center;
-}
 
 nav a:first-of-type {
   border: 0;

@@ -20,7 +20,7 @@ const router = createRouter({
     {
       path: '/fart',
       name:  'fart',
-      component: () => import('../views/greenfortnite.vue')
+      component: () => import('../views/SATcompare.vue')
     }
   ]
 })
