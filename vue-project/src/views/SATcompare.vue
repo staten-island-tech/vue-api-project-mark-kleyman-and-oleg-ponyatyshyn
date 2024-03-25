@@ -2,15 +2,17 @@
   <div>
     <div v-if="selectedSchools.length > 0">
       <h2>School 1: {{ selectedSchools[0].school_name }}</h2>
-      <p>Average SAT Score: {{ getCombinedSatScore(selectedSchools[0]) }}</p>
+      <!-- <p>Average SAT Score: {{ getCombinedSatScore(selectedSchools[0]) }}</p> -->
 
       <h2>School 2: {{ selectedSchools[1].school_name }}</h2>
-      <p>Average SAT Score: {{ getCombinedSatScore(selectedSchools[1]) }}</p>
+      <!-- <p>Average SAT Score: {{ getCombinedSatScore(selectedSchools[1]) }}</p> -->
+
+      <h2> Score: {{ score.value }}</h2>
       <div id="chart" v-if="gameCont">
         <Bar :data="chartData" :options="chartOptions"/>
       </div>
-        <button id="fart" v-if="!gameCont" @click="guess">Choice 1</button>
-        <button id="fart" v-if="!gameCont"  @click="guess">Choice 2</button>
+        <button id="fart" v-if="!gameCont" @click="guess1">School 1</button>
+        <button id="fart" v-if="!gameCont"  @click="guess2">School 2</button>
         <button id="fart" v-if="gameCont" @click="continueGame">Next</button>
       
     </div>
@@ -21,7 +23,7 @@
 </template>
 
 <script>
-import { ref, onMounted, watchEffect } from 'vue';
+import { ref, onMounted, watchEffect, reactive } from 'vue';
 import { Bar } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
 
@@ -115,10 +117,25 @@ export default {
       return school.combined_sat_score;
     };
 
-    const guess = () => {
-      gameCont.value = true
-    };
+    const score = ref(0)
 
+    const guess1 = () => {
+      if (getCombinedSatScore(selectedSchools[0] > getCombinedSatScore(selectedSchools[1]))){
+
+      score.value++
+      } else {
+      score.value === 0
+      }
+    }
+
+    const guess2 = () => {
+      if (getCombinedSatScore(selectedSchools[1] > getCombinedSatScore(selectedSchools[0]))){
+
+      score.value++
+    } else {
+    score.value === 0
+    }
+  }
     watchEffect(() => {
       updateChartData();
     });
@@ -134,7 +151,9 @@ export default {
       chartData,
       chartOptions,
       getCombinedSatScore,
-      guess,
+      guess2,
+      score,
+      guess1,
       continueGame
     };
   },
