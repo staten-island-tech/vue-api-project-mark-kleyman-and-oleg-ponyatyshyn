@@ -1,0 +1,13 @@
+@import './base.css';
+
+
+a,
+.green {
+  display: flex;
+  text-decoration: none;
+  color: rgb(248, 77, 226);
+  transition: 0.4s;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
