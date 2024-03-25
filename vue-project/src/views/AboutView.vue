@@ -1,6 +1,16 @@
 <template>
-  <div v-if="skibidi">
-    <Line :data="chartData" :options="chartOptions" />
+  <div class="container">
+    <form class="fartpoop">
+      <label id="hi" for="hi">fart</label>
+      <input/>
+      <label id="hi" for="hello">poop</label>
+      <input/>
+      <input id="hi" type="submit" value="submit" @click="cuzzo"> 
+    </form>
+    
+    <div v-if="skibidi">
+      <Line :data="chartData" :options="chartOptions" />
+    </div>
   </div>
 </template>
 
@@ -49,11 +59,11 @@ const chartOptions = {
 let crashes = ref([]);
 const skibidi = ref(false);
 
-const fetchData = async () => {
+const fetchData = async (insert) => {
   try {
-    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m');
+    const res = await fetch(insert);
     const data = await res.json();
-
+    console.log(data)
     chartData.value.labels = data.hourly.time;
     chartData.value.datasets[0].data = data.hourly.temperature_2m;
     skibidi.value = true;
@@ -63,7 +73,31 @@ const fetchData = async () => {
 };
 
 onBeforeMount(() => {
-  fetchData();
+  fetchData('https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m');
 });
+function cuzzo(e){
+  e.preventDefault();
+  fetchData('https://api.open-meteo.com/v1/forecast?latitude=20&longitude=13.41&hourly=temperature_2m')
+}
 
 </script>
+
+<style scoped>
+
+.container{
+  display: flex;
+  flex-direction: column;
+  
+}
+#hi{
+  display: flex;
+  margin-top: 2.5%;
+  margin-bottom: 5%;
+}
+.fartpoop{
+  display: flex;
+  flex-direction: column;
+  width: 10%;
+  justify-content: center;
+}
+</style>
