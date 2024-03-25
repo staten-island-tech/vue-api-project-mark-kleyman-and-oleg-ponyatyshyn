@@ -8,6 +8,7 @@ import HomeView from './views/HomeView.vue';
     <div class="wrapper">
       <nav>
         <RouterLink to="/">Crashes</RouterLink>
+        <RouterLink to="/about">skibidi sigma</RouterLink>
         <RouterLink to="/fart">SAT</RouterLink>
       </nav>
       <RouterView id="fart"/>
@@ -17,16 +18,11 @@ import HomeView from './views/HomeView.vue';
 </template>
 
 <style scoped>
-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  text-align: center;
-  line-height: 1.5;
-  max-height: 100vh;
+#fart{
+  width: 80%;
 }
 
-header .wrapper {
+.wrapper {
   display: flex;
   place-items: flex-start;
   flex-wrap: wrap;
