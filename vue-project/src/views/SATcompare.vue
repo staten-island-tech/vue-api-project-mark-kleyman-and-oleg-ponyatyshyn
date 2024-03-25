@@ -2,28 +2,31 @@
   <div>
     <div v-if="selectedSchools.length > 0">
       <h2>School 1: {{ selectedSchools[0].school_name }}</h2>
-      <!-- <p>Average SAT Score: {{ getCombinedSatScore(selectedSchools[0]) }}</p> -->
 
       <h2>School 2: {{ selectedSchools[1].school_name }}</h2>
-      <!-- <p>Average SAT Score: {{ getCombinedSatScore(selectedSchools[1]) }}</p> -->
 
-      <h2> Score: {{ score.value }}</h2>
-      <div id="chart" v-if="gameCont">
-        <Bar :data="chartData" :options="chartOptions"/>
-      </div>
+      <h2> Score: {{ score }}</h2>
+      <div>
         <button id="fart" v-if="!gameCont" @click="guess1">School 1</button>
         <button id="fart" v-if="!gameCont"  @click="guess2">School 2</button>
         <button id="fart" v-if="gameCont" @click="continueGame">Next</button>
-      
+      </div>
     </div>
     <div v-else>
       <p>Loading...</p>
+    </div>
+
+    <div id="previous-guess" v-if="showGraph">
+      <h2>Previous Guess</h2>
+      <div id="chart">
+        <Bar :data="chartData" :options="chartOptions"/>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted, watchEffect, reactive } from 'vue';
+import { ref, onMounted, watchEffect } from 'vue';
 import { Bar } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
 
@@ -34,7 +37,7 @@ export default {
   components: { Bar },
   setup() {
     const selectedSchools = ref([]);
-    const combinedSATScores = ref([])
+    const combinedSATScores = ref([]);
 
     const chartData = ref({
       labels: [],
@@ -46,6 +49,7 @@ export default {
         }
       ]
     });
+
     const chartOptions = ref({
       responsive: true,
       maintainAspectRatio: false,
@@ -56,6 +60,7 @@ export default {
         }
       }
     });
+
     const fetchData = async () => {
       try {
         const response = await fetch('https://data.cityofnewyork.us/resource/f9bf-2cp4.json');
@@ -96,9 +101,9 @@ export default {
       }
 
       return criticalReading + math + writing;
-     };
+    };
 
-     const updateChartData = () => {
+    const updateChartData = () => {
       const newData = {
         labels: ['Option 1', 'Option 2'],
         datasets: [{
@@ -109,6 +114,7 @@ export default {
       };
       chartData.value = newData;
     };
+
     onMounted(() => {
       fetchData();
     });
@@ -118,28 +124,37 @@ export default {
     };
 
     const score = ref(0)
+    const showGraph = ref(false)
 
     const guess1 = () => {
-      if (getCombinedSatScore(selectedSchools[0] > getCombinedSatScore(selectedSchools[1]))){
-
-      score.value++
+      if (getCombinedSatScore(selectedSchools.value[0]) > getCombinedSatScore(selectedSchools.value[1])){
+        score.value++
+        fetchData();
+        showGraph.value = true
       } else {
-      score.value === 0
+        score.value = 0
+        showGraph.value = false
+        fetchData(); 
       }
     }
 
     const guess2 = () => {
-      if (getCombinedSatScore(selectedSchools[1] > getCombinedSatScore(selectedSchools[0]))){
-
-      score.value++
-    } else {
-    score.value === 0
+      if (getCombinedSatScore(selectedSchools.value[1]) > getCombinedSatScore(selectedSchools.value[0])){
+        score.value++
+        fetchData();
+        showGraph.value = true
+      } else {
+        score.value = 0
+        showGraph.value = false
+        fetchData(); 
+      }
     }
-  }
+
     watchEffect(() => {
       updateChartData();
     });
-    let gameCont = ref(false)
+
+    let gameCont = ref(true) 
     function continueGame(){
       fetchData();
       gameCont.value = false
@@ -154,7 +169,8 @@ export default {
       guess2,
       score,
       guess1,
-      continueGame
+      continueGame,
+      showGraph
     };
   },
 };
@@ -165,5 +181,9 @@ export default {
     height: 700px;
     width: 300px;
     position: 'relative'
+  }
+  #previous-guess {
+    float: right;
+    margin-right: 20px;
   }
 </style>
