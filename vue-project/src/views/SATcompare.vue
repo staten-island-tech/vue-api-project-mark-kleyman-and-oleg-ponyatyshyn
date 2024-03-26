@@ -9,7 +9,7 @@
       <div>
         <button id="fart" v-if="!gameCont" @click="guess1">School 1</button>
         <button id="fart" v-if="!gameCont"  @click="guess2">School 2</button>
-        <button id="fart" v-if="gameCont" @click="continueGame">Next</button>
+        <button id="fart" v-if="gameCont" @click="continueGame">Begin</button>
       </div>
     </div>
     <div v-else>
@@ -60,6 +60,7 @@ export default {
         }
       }
     });
+    let schools = ref([])
 
     const fetchData = async () => {
       try {
@@ -69,7 +70,24 @@ export default {
         const shuffledData = shuffleArray(data);
         const selected = shuffledData.slice(0, 2);
 
-        selectedSchools.value = selected.map(school => ({
+        data.forEach((el) => {
+            schools.value.push(el.school_name)
+          })
+
+          const schoolNames = data.reduce((acc, el) => {
+            const crash = el.contributing_factor_vehicle_1;
+            if (!acc[crash]) {
+              acc[crash] = 1;
+            } else {
+              acc[crash]++;
+            }
+            return acc;
+          }, {});
+
+          const labels = Object.keys(schoolNames);
+
+          chartData.value.labels = labels;
+          selectedSchools.value = selected.map(school => ({
           ...school,
           combined_sat_score: calculateCombinedSatScore(school)
         }));
@@ -103,9 +121,9 @@ export default {
       return criticalReading + math + writing;
     };
 
-    const updateChartData = () => {
+    const updateChartData = (labels) => {
       const newData = {
-        labels: ['Option 1', 'Option 2'],
+        labels: ['School 1', 'School 2' ],
         datasets: [{
           label: 'Combined SAT Scores',
           backgroundColor: '#ff2e77',
