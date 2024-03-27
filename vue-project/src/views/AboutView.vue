@@ -54,7 +54,7 @@ const chartData = ref({
 
 const chartOptions = {
   responsive: true,
-  width: '500px'
+  title: "bortnte"
 };
 
 let crashes = ref([]);
