@@ -5,9 +5,9 @@
       <input v-model="latitude" required/>
       <label id="hi" for="hello">poop</label>
       <input v-model="longitude" required/>
-      <input id="hi" type="submit" value="submit" @click="cuzzo"> 
+      <input id="hi" type="submit" value="submit" @click="cuzzo">
     </form>
-    
+    <h1>{{ cityName }}</h1>
     <div v-if="skibidi">
       <Line :data="chartData" :options="chartOptions" />
     </div>
@@ -53,14 +53,14 @@ const chartData = ref({
 
 const chartOptions = {
   responsive: true,
-  width: '500px'
+  title: "bortnte"
 };
 
 let crashes = ref([]);
 const skibidi = ref(false);
 const latitude = ref()
 const longitude = ref()
-
+const cityName = ref('')
 
 const fetchData = async (insert) => {
   try {
@@ -78,20 +78,21 @@ async function getGyatt(url){
   try {
     const res = await fetch(url)
     const data = await res.json()
-    console.log(data)
+    cityName.value = data[0].name
   } catch (error) {
     
   }
 }
 onBeforeMount(() => {
   fetchData('https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m');
-  getGyatt(`http://api.openweathermap.org/geo/1.0/reverse?lat=0&lon=0&limit=5&appid=9301901bfd03743584028bab841175bd`)
+  getGyatt(`api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=9301901bfd03743584028bab841175bd`)
 });
 function cuzzo(e){
   e.preventDefault();
   console.log(latitude.value, longitude.value)
   skibidi.value = false
   fetchData(`https://api.open-meteo.com/v1/forecast?latitude=${latitude.value}&longitude=${longitude.value}&hourly=temperature_2m`)
+  getGyatt(`https://api.openweathermap.org/geo/1.0/reverse?lat=20&lon=20&limit=5&APPID=9301901bfd03743584028bab841175bd`)
 }
 
 </script>
