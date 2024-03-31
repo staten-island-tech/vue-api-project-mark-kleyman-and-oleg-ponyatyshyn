@@ -2,20 +2,25 @@
   <div>
     <div v-if="selectedSchools.length > 0">
       <h2>School 1: {{ selectedSchools[0].school_name }}</h2>
-      <p>Average SAT Score: {{ getCombinedSatScore(selectedSchools[0]) }}</p>
 
       <h2>School 2: {{ selectedSchools[1].school_name }}</h2>
-      <p>Average SAT Score: {{ getCombinedSatScore(selectedSchools[1]) }}</p>
-      <div id="chart" v-if="gameCont">
-        <Bar :data="chartData" :options="chartOptions"/>
+
+      <h2> Score: {{ score }}</h2>
+      <div>
+        <button id="fart" v-if="!gameCont" @click="guess1">School 1</button>
+        <button id="fart" v-if="!gameCont"  @click="guess2">School 2</button>
+        <button id="fart" v-if="gameCont" @click="continueGame">Begin</button>
       </div>
-        <button id="fart" v-if="!gameCont" @click="guess">Choice 1</button>
-        <button id="fart" v-if="!gameCont"  @click="guess">Choice 2</button>
-        <button id="fart" v-if="gameCont" @click="continueGame">Next</button>
-      
     </div>
     <div v-else>
       <p>Loading...</p>
+    </div>
+
+    <div id="previous-guess" v-if="showGraph">
+      <h2>Previous Guess</h2>
+      <div id="chart">
+        <Bar :data="chartData" :options="chartOptions"/>
+      </div>
     </div>
   </div>
 </template>
@@ -32,7 +37,7 @@ export default {
   components: { Bar },
   setup() {
     const selectedSchools = ref([]);
-    const combinedSATScores = ref([])
+    const combinedSATScores = ref([]);
 
     const chartData = ref({
       labels: [],
@@ -44,6 +49,7 @@ export default {
         }
       ]
     });
+
     const chartOptions = ref({
       responsive: true,
       maintainAspectRatio: false,
@@ -54,6 +60,8 @@ export default {
         }
       }
     });
+    let schools = ref([])
+
     const fetchData = async () => {
       try {
         const response = await fetch('https://data.cityofnewyork.us/resource/f9bf-2cp4.json');
@@ -62,7 +70,24 @@ export default {
         const shuffledData = shuffleArray(data);
         const selected = shuffledData.slice(0, 2);
 
-        selectedSchools.value = selected.map(school => ({
+        data.forEach((el) => {
+            schools.value.push(el.school_name)
+          })
+
+          const schoolNames = data.reduce((acc, el) => {
+            const crash = el.contributing_factor_vehicle_1;
+            if (!acc[crash]) {
+              acc[crash] = 1;
+            } else {
+              acc[crash]++;
+            }
+            return acc;
+          }, {});
+
+          const labels = Object.keys(schoolNames);
+
+          chartData.value.labels = labels;
+          selectedSchools.value = selected.map(school => ({
           ...school,
           combined_sat_score: calculateCombinedSatScore(school)
         }));
@@ -94,11 +119,11 @@ export default {
       }
 
       return criticalReading + math + writing;
-     };
+    };
 
-     const updateChartData = () => {
+    const updateChartData = (labels) => {
       const newData = {
-        labels: ['Option 1', 'Option 2'],
+        labels: ['School 1', 'School 2' ],
         datasets: [{
           label: 'Combined SAT Scores',
           backgroundColor: '#ff2e77',
@@ -107,6 +132,7 @@ export default {
       };
       chartData.value = newData;
     };
+
     onMounted(() => {
       fetchData();
     });
@@ -115,14 +141,38 @@ export default {
       return school.combined_sat_score;
     };
 
-    const guess = () => {
-      gameCont.value = true
-    };
+    const score = ref(0)
+    const showGraph = ref(false)
+
+    const guess1 = () => {
+      if (getCombinedSatScore(selectedSchools.value[0]) > getCombinedSatScore(selectedSchools.value[1])){
+        score.value++
+        fetchData();
+        showGraph.value = true
+      } else {
+        score.value = 0
+        showGraph.value = false
+        fetchData(); 
+      }
+    }
+
+    const guess2 = () => {
+      if (getCombinedSatScore(selectedSchools.value[1]) > getCombinedSatScore(selectedSchools.value[0])){
+        score.value++
+        fetchData();
+        showGraph.value = true
+      } else {
+        score.value = 0
+        showGraph.value = false
+        fetchData(); 
+      }
+    }
 
     watchEffect(() => {
       updateChartData();
     });
-    let gameCont = ref(false)
+
+    let gameCont = ref(true) 
     function continueGame(){
       fetchData();
       gameCont.value = false
@@ -134,8 +184,11 @@ export default {
       chartData,
       chartOptions,
       getCombinedSatScore,
-      guess,
-      continueGame
+      guess2,
+      score,
+      guess1,
+      continueGame,
+      showGraph
     };
   },
 };
@@ -146,5 +199,9 @@ export default {
     height: 700px;
     width: 300px;
     position: 'relative'
+  }
+  #previous-guess {
+    float: right;
+    margin-right: 20px;
   }
 </style>
