@@ -121,17 +121,35 @@ export default {
       return criticalReading + math + writing;
     };
 
-    const updateChartData = (labels) => {
-      const newData = {
-        labels: ['School 1', 'School 2' ],
-        datasets: [{
-          label: 'Combined SAT Scores',
-          backgroundColor: '#ff2e77',
-          data: combinedSATScores.value
-        }]
-      };
-      chartData.value = newData;
+    const updateChartData = () => {
+
+  if (selectedSchools.value.length >= 2) {
+    const school1Name = selectedSchools.value[0].school_name;
+    const school2Name = selectedSchools.value[1].school_name;
+
+    const newData = {
+      labels: ['School 1: ' + school1Name, 'School 2: ' + school2Name],
+      datasets: [{
+        label: 'Combined SAT Scores',
+        backgroundColor: '#ff2e77',
+        data: combinedSATScores.value
+      }]
     };
+    chartData.value = newData;
+  } else {
+  
+    const newData = {
+      labels: ['', ''],
+      datasets: [{
+        label: 'Combined SAT Scores',
+        backgroundColor: '#ff2e77',
+        data: combinedSATScores.value
+      }]
+    };
+    chartData.value = newData;
+  }
+};
+
 
     onMounted(() => {
       fetchData();
