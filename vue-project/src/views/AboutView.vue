@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <form class="fartpoop">
+    <form class="positionForm">
       <label id="hi" for="hi">latitude</label>
       <input v-model="latitude" required/>
       <label id="hi" for="hello">longitude</label>
       <input v-model="longitude" required/>
-      <input id="hi" type="submit" value="submit" @click="cuzzo">
+      <input id="hi" type="submit" value="submit" @click="getPosition">
 
     </form>
     <div v-if="skibidi" id="gyatt">
@@ -75,7 +75,7 @@ const fetchData = async (insert) => {
     console.error('Error fetching data:', error);
   }
 };
-async function getGyatt(url){
+async function getData(url){
   try {
     const res = await fetch(url)
     const data = await res.json()
@@ -91,14 +91,14 @@ async function getGyatt(url){
 }
 onBeforeMount(() => {
   fetchData('https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m');
-  getGyatt(`https://api.openweathermap.org/geo/1.0/reverse?lat=52.52&lon=13.41&limit=5&APPID=9301901bfd03743584028bab841175bd`)
+  getData(`https://api.openweathermap.org/geo/1.0/reverse?lat=52.52&lon=13.41&limit=5&APPID=9301901bfd03743584028bab841175bd`)
 });
-function cuzzo(e){
+function getPosition(e){
   e.preventDefault();
   console.log(latitude.value, longitude.value)
   skibidi.value = false
   fetchData(`https://api.open-meteo.com/v1/forecast?latitude=${latitude.value}&longitude=${longitude.value}&hourly=temperature_2m`)
-  getGyatt(`https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude.value}&lon=${longitude.value}&limit=5&APPID=9301901bfd03743584028bab841175bd`)
+  getData(`https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude.value}&lon=${longitude.value}&limit=5&APPID=9301901bfd03743584028bab841175bd`)
 }
 
 </script>
@@ -120,7 +120,7 @@ function cuzzo(e){
   flex-direction: column;
   align-items: center;
 }
-.fartpoop{
+.positionForm{
   display: flex;
   flex-direction: column;
   width: 10%;
