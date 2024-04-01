@@ -7,9 +7,10 @@ import HomeView from './views/HomeView.vue';
   <header>
     <div class="wrapper">
       <nav>
-        <RouterLink to="/">Crashes</RouterLink>
-        <RouterLink to="/about">Weather</RouterLink>
-        <RouterLink to="/fart">SAT</RouterLink>
+        <RouterLink to="/">NYC Crashes</RouterLink>
+        <RouterLink to="/fart">NYC SAT Game</RouterLink>
+        <RouterLink to="/about">World Weather</RouterLink>
+        
       </nav>
       <RouterView id="fart"/>
     </div>

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1 class="mainHeader">SAT Guessing Game</h1>
     <div v-if="selectedSchools.length > 0">
       <h2>School 1: {{ selectedSchools[0].school_name }}</h2>
 
@@ -221,5 +222,11 @@ export default {
   #previous-guess {
     float: right;
     margin-right: 20px;
+  }
+
+  .mainHeader{
+    font-family: 'Times New Roman', Times, serif;
+    color: white;
+    text-decoration: underline;
   }
 </style>
