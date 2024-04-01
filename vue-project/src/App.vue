@@ -8,7 +8,7 @@ import HomeView from './views/HomeView.vue';
     <div class="wrapper">
       <nav>
         <RouterLink to="/">Crashes</RouterLink>
-        <RouterLink to="/about">gyatt</RouterLink>
+        <RouterLink to="/about">Weather</RouterLink>
         <RouterLink to="/fart">SAT</RouterLink>
       </nav>
       <RouterView id="fart"/>
