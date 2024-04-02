@@ -179,12 +179,11 @@ export default {
 
 <style scoped>
   #chart{
-    height: 700px;
-    width: 300px;
+    height: 600px;
+    width: 600px;
     position: 'relative'
   }
   #previous-guess {
-    float: right;
     margin-right: 20px;
   }
 
