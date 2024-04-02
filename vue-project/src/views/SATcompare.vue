@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1 class="mainHeader">SAT Guessing Game</h1>
+    <p class="directions">Directions: Guess which school had the higher SAT scores! Click on one of the buttons below to make your guess!</p>
     <div v-if="selectedSchools.length > 0">
       <h2>School 1: {{ selectedSchools[0].school_name }}</h2>
 
