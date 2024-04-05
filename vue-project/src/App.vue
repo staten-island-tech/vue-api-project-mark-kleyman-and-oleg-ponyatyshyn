@@ -66,7 +66,7 @@ nav a.router-link-exact-active:hover {
 nav a:first-of-type {
   border: 0;
 }
-  .wrapper {
+.wrapper {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
